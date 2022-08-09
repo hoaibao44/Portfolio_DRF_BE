@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from email.policy import default
 from pathlib import Path
 from decouple import config, Csv
 import os
@@ -33,9 +34,7 @@ IS_HEROKU = "DYNO" in os.environ
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-]
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=Csv())
 
 # Application definition
 
