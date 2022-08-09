@@ -4,22 +4,6 @@ from django.db import models
 
 # Create your models here.
 
-class WhoAmI(models.Model):
-    '''Model definition for WhoAmI.'''
-    full_name = models.CharField(max_length=100)
-    sex = models.CharField(max_length=100)
-    birth_day = models.DateField()
-    description = models.TextField(max_length=500)
-
-    class Meta:
-        '''Meta definition for WhoAmI.'''
-
-        verbose_name = 'WhoAmI'
-        verbose_name_plural = 'WhoAmIs'
-
-    def __str__(self):
-        return self.full_name
-
 
 class Skill(models.Model):
     '''Model definition for Skill.'''
@@ -66,11 +50,11 @@ class Position(models.Model):
     position_name = models.CharField(max_length=100)
     team = models.CharField(max_length=100)
     company_name = models.ManyToManyField(
-        Org, related_name="p_org", blank=True, null=True)
+        Org, related_name="p_org", blank=True)
     start_time = models.DateField()
     end_time = models.DateField()
     skill = models.ManyToManyField(
-        Skill, related_name="ps_skill", blank=True, null=True)
+        Skill, related_name="ps_skill", blank=True)
     description = models.TextField(max_length=100, null=True)
 
     class Meta:
@@ -92,7 +76,7 @@ class Project(models.Model):
     description = models.TextField(max_length=500)
     impact = models.CharField(max_length=100)
     skill = models.ManyToManyField(
-        Skill, related_name="pj_skill", blank=True, null=True)
+        Skill, related_name="pj_skill", blank=True)
     take_away = models.TextField(max_length=500)
 
     class Meta:
@@ -112,9 +96,10 @@ class Event(models.Model):
     event_date = models.DateField()
     description = models.TextField(max_length=500)
     skill = models.ManyToManyField(
-        Skill, related_name="e_skill", blank=True, null=True)
+        Skill, related_name="e_skill", blank=True)
     org = models.ManyToManyField(
-        Org, related_name="org", blank=True, null=True)
+        Org, related_name="org", blank=True)
+    project = models.ManyToManyField(Project, related_name="prj", blank=True)
 
     class Meta:
         '''Meta definition for Event.'''
@@ -124,3 +109,22 @@ class Event(models.Model):
 
     def __str__(self):
         return self.event_name
+
+
+class WhoAmI(models.Model):
+    '''Model definition for WhoAmI.'''
+    full_name = models.CharField(max_length=100)
+    sex = models.CharField(max_length=100)
+    birth_day = models.DateField()
+    description = models.TextField(max_length=500)
+    skill_set = models.ManyToManyField(
+        Skill, related_name="skill", blank=True)
+
+    class Meta:
+        '''Meta definition for WhoAmI.'''
+
+        verbose_name = 'WhoAmI'
+        verbose_name_plural = 'WhoAmIs'
+
+    def __str__(self):
+        return self.full_name

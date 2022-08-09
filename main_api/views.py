@@ -8,6 +8,9 @@ from .serializers import EventSerializer, OrgSerializer, PositionSerializer, Ski
 from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
 from rest_framework import permissions
+
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 # Create your views here.
 
@@ -20,7 +23,7 @@ class WhoAmIViewset(viewsets.ModelViewSet):
 
 class SkillViewset(viewsets.ModelViewSet):
     queryset = Skill.objects.all()
-    serializer_class = SkillMiniSerializer
+    serializer_class = SkillSerializer
     permission_classes = [permissions.AllowAny]
 
     def retrieve(self, request, *args, **kwargs):
@@ -58,7 +61,7 @@ class ProjectViewset(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-@csrf_exempt
+@api_view(['GET'])
 def get_mini_skill(request):
     """
     List all code Skill, or create a new snippet.
@@ -66,6 +69,4 @@ def get_mini_skill(request):
     if request.method == 'GET':
         skill = Skill.objects.all()
         serializer = SkillMiniSerializer(skill, many=True)
-        return JsonResponse(serializer.data, safe=False)
-    else:
-        return HttpResponseForbidden()
+        return Response(serializer.data)

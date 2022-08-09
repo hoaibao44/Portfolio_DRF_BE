@@ -73,7 +73,16 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
+    skill = SkillMiniSerializer(many=True)
+    org = OrgMiniSerializer(many=True)
 
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = [
+            'event_name',
+            'event_date',
+            'description',
+            'skill',
+            'org',
+            'project'
+        ]
