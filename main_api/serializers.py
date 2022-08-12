@@ -86,7 +86,7 @@ class HobbiesSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Hobbies
-        field = '__all__'
+        fields = '__all__'
 
 
 class WhoAmISerializer(serializers.ModelSerializer):
