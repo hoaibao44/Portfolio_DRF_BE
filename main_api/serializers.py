@@ -1,13 +1,7 @@
 
 from rest_framework import serializers
 
-from .models import Org, Position, WhoAmI, Skill, Project, Event
-
-
-class WhoAmISerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WhoAmI
-        fields = '__all__'
+from .models import Hobbies, Org, Position, WhoAmI, Skill, Project, Event
 
 
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -85,4 +79,33 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
             'skill',
             'org',
             'project'
+        ]
+
+
+class HobbiesSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Hobbies
+        field = '__all__'
+
+
+class WhoAmISerializer(serializers.ModelSerializer):
+    skill_set = SkillMiniSerializer(many=True)
+    orgs = OrgSerializer(many=True)
+    hobbies = HobbiesSerializer(many=True)
+
+    class Meta:
+        model = WhoAmI
+        fields = [
+            'full_name',
+            'sex',
+            'birth_day',
+            'location',
+            'hobbies',
+            'description',
+            'git_url',
+            'ig_url',
+            'mail',
+            'skill_set',
+            'orgs'
         ]
