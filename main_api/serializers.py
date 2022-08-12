@@ -82,7 +82,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class HobbiesSerializer(serializers.HyperlinkedModelSerializer):
+class HobbiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hobbies
