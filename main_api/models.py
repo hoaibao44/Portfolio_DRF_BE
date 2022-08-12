@@ -126,6 +126,7 @@ class Hobbies(models.Model):
 class WhoAmI(models.Model):
     '''Model definition for WhoAmI.'''
     full_name = models.CharField(max_length=100)
+    profile_img_url = models.CharField(max_length=500, blank=True)
     sex = models.CharField(max_length=100)
     birth_day = models.DateField()
     location = models.CharField(max_length=200, blank=True)
