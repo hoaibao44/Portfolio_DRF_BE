@@ -98,6 +98,7 @@ class WhoAmISerializer(serializers.ModelSerializer):
         model = WhoAmI
         fields = [
             'full_name',
+            'profile_img_url',
             'sex',
             'birth_day',
             'location',
