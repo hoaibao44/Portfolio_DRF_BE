@@ -54,7 +54,7 @@ class Position(models.Model):
     end_time = models.DateField()
     skill = models.ManyToManyField(
         Skill, related_name="ps_skill", blank=True)
-    description = models.TextField(max_length=100, null=True)
+    description = models.TextField(max_length=500, null=True)
 
     class Meta:
         '''Meta definition for Position.'''
