@@ -15,7 +15,9 @@ class SkillMiniSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skill
-        fields = ('id', 'skill_name', 'level', 'exp_years_as_text')
+        fields = (
+            'layout_position',
+            'id', 'skill_name', 'level', 'exp_years_as_text')
 
 
 class OrgMiniSerializer(serializers.HyperlinkedModelSerializer):
@@ -39,6 +41,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Position
         fields = [
+            'layout_position',
             'position_name',
             'team',
             'company_name',
@@ -56,6 +59,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
         fields = [
+            'layout_position',
             'event_name',
             'event_date',
             'description',
@@ -73,6 +77,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         # fields = '__all__'
         fields = (
+            'layout_position',
             'project_name',
             'position',
             'start_time',

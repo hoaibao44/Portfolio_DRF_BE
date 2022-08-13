@@ -6,7 +6,7 @@ from django.db import models
 
 class Skill(models.Model):
     '''Model definition for Skill.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     skill_name = models.CharField(max_length=100)
     exp_years = models.IntegerField(null=True)
     level = models.CharField(max_length=100, null=True)
@@ -28,7 +28,7 @@ class Skill(models.Model):
 
 class Org(models.Model):
     '''Model definition for Org.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     org_name = models.CharField(max_length=100)
     website = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
@@ -45,7 +45,7 @@ class Org(models.Model):
 
 class Position(models.Model):
     '''Model definition for Position.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     position_name = models.CharField(max_length=100)
     team = models.CharField(max_length=100)
     company_name = models.ManyToManyField(
@@ -68,7 +68,7 @@ class Position(models.Model):
 
 class Project(models.Model):
     '''Model definition for Project.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     project_name = models.CharField(max_length=100)
     start_time = models.DateField()
     end_time = models.DateField()
@@ -92,6 +92,7 @@ class Project(models.Model):
 
 class Event(models.Model):
     '''Model definition for Event.'''
+    layout_position = models.IntegerField(blank=True, default=0)
 
     event_name = models.CharField(max_length=100)
     event_date = models.DateField()
@@ -123,6 +124,7 @@ class Hobbies(models.Model):
 
 class WhoAmI(models.Model):
     '''Model definition for WhoAmI.'''
+
     full_name = models.CharField(max_length=100)
     profile_img_url = models.CharField(max_length=500, blank=True)
     sex = models.CharField(max_length=100)
