@@ -2,6 +2,7 @@ from asyncio import events
 from audioop import maxpp
 from codecs import backslashreplace_errors
 from decimal import MAX_EMAX
+from turtle import position
 from django.db import models
 
 
@@ -80,6 +81,8 @@ class Project(models.Model):
     impact = models.CharField(max_length=100)
     skill = models.ManyToManyField(
         Skill, related_name="pj_skill", blank=True)
+    position = models.ManyToManyField(
+        Position, related_name="pj_position", blank=True)
     take_away = models.TextField(max_length=500)
 
     class Meta:

@@ -32,23 +32,6 @@ class OrgSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class ProjectSerializer(serializers.ModelSerializer):
-    skill = SkillMiniSerializer(many=True)
-
-    class Meta:
-        model = Project
-        # fields = '__all__'
-        fields = (
-            'project_name',
-            'start_time',
-            'end_time',
-            'description',
-            'impact',
-            'take_away',
-            'skill'
-        )
-
-
 class PositionSerializer(serializers.HyperlinkedModelSerializer):
     skill = SkillMiniSerializer(many=True)
     company_name = OrgMiniSerializer(many=True)
@@ -80,6 +63,25 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
             'org',
             'project'
         ]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    skill = SkillMiniSerializer(many=True)
+    position = PositionSerializer(many=True)
+
+    class Meta:
+        model = Project
+        # fields = '__all__'
+        fields = (
+            'project_name',
+            'position',
+            'start_time',
+            'end_time',
+            'description',
+            'impact',
+            'take_away',
+            'skill'
+        )
 
 
 class HobbiesSerializer(serializers.ModelSerializer):
