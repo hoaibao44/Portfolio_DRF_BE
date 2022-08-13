@@ -1,8 +1,3 @@
-from asyncio import events
-from audioop import maxpp
-from codecs import backslashreplace_errors
-from decimal import MAX_EMAX
-from turtle import position
 from django.db import models
 
 
