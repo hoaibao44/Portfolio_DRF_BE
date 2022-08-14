@@ -1,4 +1,3 @@
-from asyncio import events
 from django.db import models
 
 
@@ -7,7 +6,7 @@ from django.db import models
 
 class Skill(models.Model):
     '''Model definition for Skill.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     skill_name = models.CharField(max_length=100)
     exp_years = models.IntegerField(null=True)
     level = models.CharField(max_length=100, null=True)
@@ -29,7 +28,7 @@ class Skill(models.Model):
 
 class Org(models.Model):
     '''Model definition for Org.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     org_name = models.CharField(max_length=100)
     website = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
@@ -46,7 +45,7 @@ class Org(models.Model):
 
 class Position(models.Model):
     '''Model definition for Position.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     position_name = models.CharField(max_length=100)
     team = models.CharField(max_length=100)
     company_name = models.ManyToManyField(
@@ -55,7 +54,7 @@ class Position(models.Model):
     end_time = models.DateField()
     skill = models.ManyToManyField(
         Skill, related_name="ps_skill", blank=True)
-    description = models.TextField(max_length=100, null=True)
+    description = models.TextField(max_length=500, null=True)
 
     class Meta:
         '''Meta definition for Position.'''
@@ -69,7 +68,7 @@ class Position(models.Model):
 
 class Project(models.Model):
     '''Model definition for Project.'''
-
+    layout_position = models.IntegerField(blank=True, default=0)
     project_name = models.CharField(max_length=100)
     start_time = models.DateField()
     end_time = models.DateField()
@@ -77,6 +76,8 @@ class Project(models.Model):
     impact = models.CharField(max_length=100)
     skill = models.ManyToManyField(
         Skill, related_name="pj_skill", blank=True)
+    position = models.ManyToManyField(
+        Position, related_name="pj_position", blank=True)
     take_away = models.TextField(max_length=500)
 
     class Meta:
@@ -91,6 +92,7 @@ class Project(models.Model):
 
 class Event(models.Model):
     '''Model definition for Event.'''
+    layout_position = models.IntegerField(blank=True, default=0)
 
     event_name = models.CharField(max_length=100)
     event_date = models.DateField()
@@ -111,14 +113,35 @@ class Event(models.Model):
         return self.event_name
 
 
+class Hobbies(models.Model):
+
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.name
+
+
 class WhoAmI(models.Model):
     '''Model definition for WhoAmI.'''
+
     full_name = models.CharField(max_length=100)
+    profile_img_url = models.CharField(max_length=500, blank=True)
     sex = models.CharField(max_length=100)
     birth_day = models.DateField()
+    location = models.CharField(max_length=200, blank=True)
+    hobbies = models.ManyToManyField(
+        Hobbies, related_name='hobbies', blank=True)
     description = models.TextField(max_length=500)
+
+    git_url = models.CharField(max_length=500, blank=True)
+    ig_url = models.CharField(max_length=500, blank=True)
+    mail = models.CharField(max_length=500, blank=True)
+
     skill_set = models.ManyToManyField(
         Skill, related_name="skill", blank=True)
+
+    orgs = models.ManyToManyField(Org, related_name='main_org', blank=True)
 
     class Meta:
         '''Meta definition for WhoAmI.'''

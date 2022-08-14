@@ -1,13 +1,7 @@
 
 from rest_framework import serializers
 
-from .models import Org, Position, WhoAmI, Skill, Project, Event
-
-
-class WhoAmISerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WhoAmI
-        fields = '__all__'
+from .models import Hobbies, Org, Position, WhoAmI, Skill, Project, Event
 
 
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,7 +15,9 @@ class SkillMiniSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skill
-        fields = ('id', 'skill_name', 'level', 'exp_years_as_text')
+        fields = (
+            'layout_position',
+            'id', 'skill_name', 'level', 'exp_years_as_text')
 
 
 class OrgMiniSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,23 +34,6 @@ class OrgSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class ProjectSerializer(serializers.ModelSerializer):
-    skill = SkillMiniSerializer(many=True)
-
-    class Meta:
-        model = Project
-        # fields = '__all__'
-        fields = (
-            'project_name',
-            'start_time',
-            'end_time',
-            'description',
-            'impact',
-            'take_away',
-            'skill'
-        )
-
-
 class PositionSerializer(serializers.HyperlinkedModelSerializer):
     skill = SkillMiniSerializer(many=True)
     company_name = OrgMiniSerializer(many=True)
@@ -62,6 +41,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Position
         fields = [
+            'layout_position',
             'position_name',
             'team',
             'company_name',
@@ -79,10 +59,61 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
         fields = [
+            'layout_position',
             'event_name',
             'event_date',
             'description',
             'skill',
             'org',
             'project'
+        ]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    skill = SkillMiniSerializer(many=True)
+    position = PositionSerializer(many=True)
+
+    class Meta:
+        model = Project
+        # fields = '__all__'
+        fields = (
+            'layout_position',
+            'project_name',
+            'position',
+            'start_time',
+            'end_time',
+            'description',
+            'impact',
+            'take_away',
+            'skill'
+        )
+
+
+class HobbiesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Hobbies
+        fields = '__all__'
+
+
+class WhoAmISerializer(serializers.ModelSerializer):
+    skill_set = SkillMiniSerializer(many=True)
+    orgs = OrgSerializer(many=True)
+    hobbies = HobbiesSerializer(many=True)
+
+    class Meta:
+        model = WhoAmI
+        fields = [
+            'full_name',
+            'profile_img_url',
+            'sex',
+            'birth_day',
+            'location',
+            'hobbies',
+            'description',
+            'git_url',
+            'ig_url',
+            'mail',
+            'skill_set',
+            'orgs'
         ]
