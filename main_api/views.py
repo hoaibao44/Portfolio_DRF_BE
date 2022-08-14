@@ -14,17 +14,21 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 # Create your views here.
 
+test_per = permissions.AllowAny
+prod_per = permissions.IsAuthenticatedOrReadOnly
+per_here = prod_per
+
 
 class WhoAmIViewset(viewsets.ModelViewSet):
     queryset = WhoAmI.objects.all()
     serializer_class = WhoAmISerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [per_here]
 
 
 class SkillViewset(viewsets.ModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [per_here]
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -35,25 +39,25 @@ class SkillViewset(viewsets.ModelViewSet):
 class PositionViewset(viewsets.ModelViewSet):
     queryset = Position.objects.all()
     serializer_class = PositionSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [per_here]
 
 
 class OrgViewset(viewsets.ModelViewSet):
     queryset = Org.objects.all()
     serializer_class = OrgSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [per_here]
 
 
 class EventViewset(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [per_here]
 
 
 class ProjectViewset(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [per_here]
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
