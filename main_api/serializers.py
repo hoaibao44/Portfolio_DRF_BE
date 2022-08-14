@@ -17,7 +17,7 @@ class SkillMiniSerializer(serializers.ModelSerializer):
         model = Skill
         fields = (
             'layout_position',
-            'id', 'skill_name', 'level', 'exp_years_as_text')
+            'id', 'skill_name', 'skill_type', 'level', 'exp_years_as_text')
 
 
 class OrgMiniSerializer(serializers.HyperlinkedModelSerializer):

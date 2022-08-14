@@ -1,3 +1,4 @@
+
 from django.db import models
 
 
@@ -6,8 +7,16 @@ from django.db import models
 
 class Skill(models.Model):
     '''Model definition for Skill.'''
+
+    PERSONAL = 'PER'
+    PROFESSIONAL = 'PRO'
+    SKILL_TYPE_CHOICE = [(PERSONAL, 'personal'),
+                         (PROFESSIONAL, 'professional')]
+
     layout_position = models.IntegerField(blank=True, default=0)
     skill_name = models.CharField(max_length=100)
+    skill_type = models.TextField(
+        max_length=3, choices=SKILL_TYPE_CHOICE, default=PERSONAL)
     exp_years = models.IntegerField(null=True)
     level = models.CharField(max_length=100, null=True)
     learning_method = models.CharField(max_length=100, null=True)
