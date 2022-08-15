@@ -8,6 +8,7 @@ from .serializers import EventSerializer, OrgSerializer, PositionSerializer, Ski
 from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.pagination import PageNumberPagination
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -76,9 +77,17 @@ def get_mini_skill(request):
         return Response(serializer.data)
 
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 100
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
 class CommentViewset(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
+
     serializer_class = CommentSerializer
+    pagination_class = StandardResultsSetPagination
     permission_classes = [permissions.AllowAny]
 
     def retrieve(self, request, *args, **kwargs):
