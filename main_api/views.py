@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Event, Org, Position, WhoAmI, Skill, Project
-from .serializers import EventSerializer, OrgSerializer, PositionSerializer, SkillMiniSerializer, WhoAmISerializer, SkillSerializer, ProjectSerializer
+from .models import Comment, Event, Org, Position, WhoAmI, Skill, Project, Reply
+from .serializers import EventSerializer, OrgSerializer, PositionSerializer, SkillMiniSerializer, WhoAmISerializer, SkillSerializer, ProjectSerializer, CommentSerializer, ReplySerializer
 
 from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
@@ -74,3 +74,20 @@ def get_mini_skill(request):
         skill = Skill.objects.all()
         serializer = SkillMiniSerializer(skill, many=True)
         return Response(serializer.data)
+
+
+class CommentViewset(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = CommentSerializer(instance)
+        return Response(serializer.data)
+
+
+class ReplyViewset(viewsets.ModelViewSet):
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    permission_classes = [per_here]

@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 
 
-from .views import EventViewset, PositionViewset, WhoAmIViewset, SkillViewset, ProjectViewset, OrgViewset, get_mini_skill
+from .views import CommentViewset, EventViewset, PositionViewset, ReplyViewset, WhoAmIViewset, SkillViewset, ProjectViewset, OrgViewset, get_mini_skill
 
 router = routers.DefaultRouter()
 router.register(r'api-infos', WhoAmIViewset)
@@ -11,6 +11,8 @@ router.register(r'api-projects', ProjectViewset)
 router.register(r'api-events', EventViewset)
 router.register(r'api-positions', PositionViewset)
 router.register(r'api-orgs', OrgViewset)
+router.register(r'api-cmts', CommentViewset)
+router.register(r'api-replys', ReplyViewset)
 
 
 urlpatterns = [

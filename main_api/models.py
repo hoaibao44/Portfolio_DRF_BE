@@ -1,4 +1,6 @@
 
+from argparse import ONE_OR_MORE
+from audioop import maxpp
 from django.db import models
 
 
@@ -160,3 +162,36 @@ class WhoAmI(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class Comment(models.Model):
+    '''Model definition for Comment.'''
+    cmt_time = models.DateTimeField(auto_now=True)
+    cmt_email = models.EmailField(max_length=500)
+    cmt_msg = models.CharField(max_length=500)
+
+    class Meta:
+        '''Meta definition for Comment.'''
+
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        return f'{self.cmt_email}: {self.cmt_msg}'
+
+
+class Reply(models.Model):
+    '''Model definition for Reply.'''
+    reply_time = models.DateTimeField(auto_now=True)
+    reply_msg = models.CharField(max_length=500)
+    reply_to_cmt = models.ForeignKey(
+        Comment, on_delete=models.CASCADE, max_length=500, null=True, blank=True, related_name='reply_cmt')
+
+    class Meta:
+        '''Meta definition for Reply.'''
+
+        verbose_name = 'Reply'
+        verbose_name_plural = 'Replys'
+
+    def __str__(self):
+        return f'{self.reply_time}: {self.reply_msg}'

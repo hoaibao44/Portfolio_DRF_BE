@@ -1,7 +1,8 @@
 
+from dataclasses import field
 from rest_framework import serializers
 
-from .models import Hobbies, Org, Position, WhoAmI, Skill, Project, Event
+from .models import Hobbies, Org, Position, WhoAmI, Skill, Project, Event, Comment, Reply
 
 
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -117,3 +118,31 @@ class WhoAmISerializer(serializers.ModelSerializer):
             'skill_set',
             'orgs'
         ]
+
+
+class ReplySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Reply
+        fields = [
+            'reply_time',
+            'reply_msg',
+            'reply_to_cmt',
+        ]
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    reply_cmt = ReplySerializer(many=True, required=False)
+
+    class Meta:
+        model = Comment
+        fields = [
+            'cmt_time',
+            'cmt_email',
+            'cmt_msg',
+            'reply_cmt',
+        ]
+
+    def create(self, validated_data):
+        instance = self.Meta.model.objects.create(**validated_data)
+        return instance
