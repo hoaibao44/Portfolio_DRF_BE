@@ -158,7 +158,9 @@ else:
     STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
     if IS_HEROKU:
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
+        PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            os.path.join(PROJECT_ROOT, 'google-credentials.json'))
     else:
         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
             os.path.join(BASE_DIR, 'google-credentials.json'))
