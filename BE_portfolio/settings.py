@@ -160,7 +160,7 @@ else:
     if IS_HEROKU:
         PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            os.path.join(PROJECT_ROOT, 'google-credentials.json'))
+            os.path.join(BASE_DIR, 'google-credentials.json'))
     else:
         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
             os.path.join(BASE_DIR, 'google-credentials.json'))
