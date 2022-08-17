@@ -154,23 +154,24 @@ if not TRY_CLOUND:
 # for prod environment
 else:
 
-    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-    STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    # DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    # STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    DEFAULT_FILE_STORAGE = 'BE_portfolio.gcloud.GoogleCloudMediaFileStorage'
+    STATICFILES_STORAGE = 'BE_portfolio.gcloud.GoogleCloudStaticFileStorage'
 
-    if IS_HEROKU:
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            os.path.join(BASE_DIR, 'google-credentials.json'))
-    else:
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            os.path.join(BASE_DIR, 'google-credentials.json'))
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        os.path.join(BASE_DIR, 'google-credentials.json'))
 
     GS_PROJECT_ID = 'portfolio-g-storage'
     GS_BUCKET_NAME = 'stormie-portfolio-bucket'
 
-    STATIC_ROOT = "/static/"
-    STATIC_URL = 'https://storage.googleapis.com/{}/static/'.format(
-        GS_BUCKET_NAME)
+    GS_MEDIA_BUCKET_NAME = GS_BUCKET_NAME
+    GS_STATIC_BUCKET_NAME = GS_BUCKET_NAME
 
     MEDIA_ROOT = "/media/"
     MEDIA_URL = 'https://storage.googleapis.com/{}/media/'.format(
-        GS_BUCKET_NAME)
+        GS_MEDIA_BUCKET_NAME)
+
+    STATIC_ROOT = "/static/"
+    STATIC_URL = 'https://storage.googleapis.com/{}/static/'.format(
+        GS_STATIC_BUCKET_NAME)
