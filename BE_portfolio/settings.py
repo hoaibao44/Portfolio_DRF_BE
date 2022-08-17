@@ -15,6 +15,7 @@ from pathlib import Path
 from decouple import config, Csv
 import os
 from dj_database_url import parse as dburl
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +34,7 @@ IS_HEROKU = "DYNO" in os.environ
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=Csv())
 
 # Application definition
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'storages',
     'rest_framework',
     'main_api'
 ]
@@ -130,17 +132,45 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'staticfiles')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
 
 # custom setting
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+# for local environment
+
+TRY_CLOUND = True
+if not TRY_CLOUND:
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'StorageFolder', 'static')
+    STATIC_URL = '/static/'
+
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'StorageFolder', 'media')
+    MEDIA_URL = '/media/'
+
+# for prod environment
+else:
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+    if IS_HEROKU:
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            os.path.join(BASE_DIR, 'google-credentials.json'))
+    else:
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            os.path.join(BASE_DIR, 'google-credentials.json'))
+
+    GS_PROJECT_ID = 'portfolio-g-storage'
+    GS_BUCKET_NAME = 'stormie-portfolio-bucket'
+
+    STATIC_ROOT = "/static/"
+    STATIC_URL = 'https://storage.googleapis.com/{}/static/'.format(
+        GS_BUCKET_NAME)
+
+    MEDIA_ROOT = "/media/"
+    MEDIA_URL = 'https://storage.googleapis.com/{}/media/'.format(
+        GS_BUCKET_NAME)

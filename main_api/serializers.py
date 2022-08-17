@@ -1,8 +1,15 @@
 
 from dataclasses import field
+from statistics import mode
 from rest_framework import serializers
 
-from .models import Hobbies, Org, Position, WhoAmI, Skill, Project, Event, Comment, Reply
+from .models import Hobbies, Org, Position, WhoAmI, Skill, Project, Event, Comment, Reply, CVFile
+
+
+class CVFileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CVFile
+        fields = '__all__'
 
 
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
