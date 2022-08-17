@@ -8,3 +8,4 @@ python-decouple==3.6
 django-markdownify
 django-widget-tweaks
 django-cors-headers
+django_storages==1.13.1

@@ -2,7 +2,7 @@
 from argparse import ONE_OR_MORE
 from audioop import maxpp
 from django.db import models
-
+from django.conf import settings
 
 # Create your models here.
 
@@ -195,3 +195,22 @@ class Reply(models.Model):
 
     def __str__(self):
         return f'{self.reply_time}: {self.reply_msg}'
+
+
+class CVFile(models.Model):
+    '''Model definition for CVFile.'''
+    display_name = models.CharField(max_length=300, blank=False)
+    pdf_file = models.FileField(upload_to='pdfs', blank=True)
+    img_file = models.FileField(upload_to='imgs', blank=True)
+
+    class Meta:
+        '''Meta definition for CVFile.'''
+
+        verbose_name = 'CVFile'
+        verbose_name_plural = 'CVFiles'
+
+    def __str__(self):
+        return self.display_name
+
+    def pdf_url(self):
+        self.pdf_file

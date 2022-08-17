@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Comment, Event, Org, Position, WhoAmI, Skill, Project, Reply
-from .serializers import EventSerializer, OrgSerializer, PositionSerializer, SkillMiniSerializer, WhoAmISerializer, SkillSerializer, ProjectSerializer, CommentSerializer, ReplySerializer
+from .models import Comment, Event, Org, Position, WhoAmI, Skill, Project, Reply, CVFile
+from .serializers import EventSerializer, OrgSerializer, PositionSerializer, SkillMiniSerializer, WhoAmISerializer, SkillSerializer, ProjectSerializer, CommentSerializer, ReplySerializer, CVFileSerializer
 
 from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
@@ -21,8 +21,14 @@ per_here = prod_per
 
 
 class WhoAmIViewset(viewsets.ModelViewSet):
-    queryset = WhoAmI.objects.all()
+    queryset = WhoAmI.objects.all().order_by("-id")
     serializer_class = WhoAmISerializer
+    permission_classes = [per_here]
+
+
+class CVFileViewset(viewsets.ModelViewSet):
+    queryset = CVFile.objects.all()
+    serializer_class = CVFileSerializer
     permission_classes = [per_here]
 
 
@@ -44,7 +50,7 @@ class PositionViewset(viewsets.ModelViewSet):
 
 
 class OrgViewset(viewsets.ModelViewSet):
-    queryset = Org.objects.all()
+    queryset = Org.objects.all().order_by("-id")
     serializer_class = OrgSerializer
     permission_classes = [per_here]
 
@@ -84,7 +90,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 class CommentViewset(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by("-id")
 
     serializer_class = CommentSerializer
     pagination_class = StandardResultsSetPagination
