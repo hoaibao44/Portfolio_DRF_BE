@@ -9,3 +9,4 @@ django-markdownify
 django-widget-tweaks
 django-cors-headers
 django_storages==1.13.1
+google-auth
