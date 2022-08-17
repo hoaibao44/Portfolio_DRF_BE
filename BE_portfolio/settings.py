@@ -157,8 +157,11 @@ else:
     DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
     STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        os.path.join(BASE_DIR, 'google-credentials.json'))
+    if IS_HEROKU:
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
+    else:
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            os.path.join(BASE_DIR, 'google-credentials.json'))
 
     GS_PROJECT_ID = 'portfolio-g-storage'
     GS_BUCKET_NAME = 'stormie-portfolio-bucket'
